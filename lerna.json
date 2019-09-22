@@ -1,8 +1,10 @@
 {
   "lerna": "2.5.1",
+  "npmClient": "yarn",
   "packages": [
     "examples/data-generator",
     "packages/*"
   ],
-  "version": "2.9.6"
+  "version": "2.9.6",
+  "useWorkspaces": true
 }
