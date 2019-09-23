@@ -36,8 +36,8 @@
     },
     "peerDependencies": {
         "connected-react-router": "^6.4.0",
-        "ra-core": "^3.0.0-alpha.0",
-        "react-admin": "^2.5.3",
+        "ra-core": "^3.0.0-alpha.4",
+        "react-admin": "^3.0.0-alpha.4",
         "react-router": "^4.2.0",
         "redux-saga": "^1.0.0"
     },
