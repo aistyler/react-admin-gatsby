@@ -1,5 +1,5 @@
-import React from "react";
-import { Show, SimpleShowLayout, TextField } from "react-admin"; // eslint-disable-line import/no-unresolved
+import React from 'react';
+import { Show, SimpleShowLayout, TextField } from 'react-admin'; // eslint-disable-line import/no-unresolved
 
 const TagShow = props => (
     <Show {...props}>

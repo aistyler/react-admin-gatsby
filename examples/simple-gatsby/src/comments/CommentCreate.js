@@ -1,15 +1,14 @@
-import React from "react";
+import React from 'react';
 
 import {
     Create,
     DateInput,
     TextInput,
-    LongTextInput,
     SimpleForm,
     required,
     minLength,
-} from "react-admin"; // eslint-disable-line import/no-unresolved
-import PostReferenceInput from "./PostReferenceInput";
+} from 'react-admin'; // eslint-disable-line import/no-unresolved
+import PostReferenceInput from './PostReferenceInput';
 
 const defaultValue = { created_at: new Date() };
 const CommentCreate = props => (
@@ -22,9 +21,13 @@ const CommentCreate = props => (
                 validate={required()}
                 perPage={10000}
             />
-            <TextInput source="author.name" validate={minLength(10)} fullWidth />
+            <TextInput
+                source="author.name"
+                validate={minLength(10)}
+                fullWidth
+            />
             <DateInput source="created_at" />
-            <LongTextInput source="body" />
+            <TextInput source="body" fullWidth={true} multiline={true} />
         </SimpleForm>
     </Create>
 );

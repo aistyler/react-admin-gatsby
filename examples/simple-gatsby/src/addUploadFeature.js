@@ -8,7 +8,7 @@ const convertFileToBase64 = file =>
     });
 
 const addUploadCapabilities = requestHandler => (type, resource, params) => {
-    if (type === "UPDATE" && resource === "posts") {
+    if (type === 'UPDATE' && resource === 'posts') {
         if (params.data.pictures && params.data.pictures.length) {
             // only freshly dropped pictures are instance of File
             const formerPictures = params.data.pictures.filter(
@@ -30,7 +30,10 @@ const addUploadCapabilities = requestHandler => (type, resource, params) => {
                         ...params,
                         data: {
                             ...params.data,
-                            pictures: [...transformedNewPictures, ...formerPictures],
+                            pictures: [
+                                ...transformedNewPictures,
+                                ...formerPictures,
+                            ],
                         },
                     })
                 );
