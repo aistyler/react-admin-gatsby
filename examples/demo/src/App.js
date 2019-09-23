@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { Admin, Resource } from 'react-admin';
+import polyglotI18nProvider from 'ra-i18n-polyglot';
 
 import './App.css';
 
 import authProvider from './authProvider';
-import sagas from './sagas';
 import themeReducer from './themeReducer';
 import { Login, Layout } from './layout';
 import { Dashboard } from './dashboard';
@@ -21,14 +21,14 @@ import reviews from './reviews';
 import dataProviderFactory from './dataProvider';
 import fakeServerFactory from './fakeServer';
 
-const i18nProvider = locale => {
+const i18nProvider = polyglotI18nProvider(locale => {
     if (locale === 'fr') {
         return import('./i18n/fr').then(messages => messages.default);
     }
 
     // Always fallback on english
     return englishMessages;
-};
+});
 
 class App extends Component {
     state = { dataProvider: null };
@@ -65,12 +65,11 @@ class App extends Component {
                 title=""
                 dataProvider={dataProvider}
                 customReducers={{ theme: themeReducer }}
-                customSagas={sagas}
                 customRoutes={customRoutes}
                 authProvider={authProvider}
                 dashboard={Dashboard}
                 loginPage={Login}
-                appLayout={Layout}
+                layout={Layout}
                 locale="en"
                 i18nProvider={i18nProvider}
             >

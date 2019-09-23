@@ -2,9 +2,9 @@ import debounce from 'lodash/debounce';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Quill from 'quill';
-import { addField } from 'ra-core';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import FormControl from '@material-ui/core/FormControl';
+import { addField, FieldTitle } from 'ra-core';
+import { InputHelperText } from 'ra-ui-materialui';
+import { FormHelperText, FormControl, InputLabel } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 
 import styles from './styles';
@@ -90,20 +90,51 @@ export class RichTextInput extends Component {
     };
 
     render() {
+        const {
+            label,
+            source,
+            resource,
+            isRequired,
+            id,
+            classes = {},
+            margin = 'dense',
+            variant,
+        } = this.props;
         const { touched, error, helperText = false } = this.props.meta;
         return (
             <FormControl
                 error={!!(touched && error)}
                 fullWidth={this.props.fullWidth}
                 className="ra-rich-text-input"
+                margin={margin}
             >
-                <div data-testid="quill" ref={this.updateDivRef} />
-                {touched && error && (
-                    <FormHelperText error className="ra-rich-text-input-error">
-                        {error}
-                    </FormHelperText>
+                {label !== '' && label !== false && (
+                    <InputLabel shrink htmlFor={id} className={classes.label}>
+                        <FieldTitle
+                            label={label}
+                            source={source}
+                            resource={resource}
+                            isRequired={isRequired}
+                        />
+                    </InputLabel>
                 )}
-                {helperText && <FormHelperText>{helperText}</FormHelperText>}
+                <div
+                    data-testid="quill"
+                    ref={this.updateDivRef}
+                    className={variant}
+                />
+                {helperText || (touched && error) ? (
+                    <FormHelperText
+                        error={!!error}
+                        className={!!error ? 'ra-rich-text-input-error' : ''}
+                    >
+                        <InputHelperText
+                            error={error}
+                            helperText={helperText}
+                            touched={touched}
+                        />
+                    </FormHelperText>
+                ) : null}
             </FormControl>
         );
     }
@@ -112,7 +143,6 @@ export class RichTextInput extends Component {
 const RichTextInputWithField = addField(withStyles(styles)(RichTextInput));
 
 RichTextInputWithField.defaultProps = {
-    addLabel: true,
     fullWidth: true,
 };
 export default RichTextInputWithField;

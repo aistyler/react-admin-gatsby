@@ -1,24 +1,19 @@
 import React, {
     Children,
-    Component,
+    useEffect,
     cloneElement,
     createElement,
     ComponentType,
     CSSProperties,
+    ReactElement,
+    FunctionComponent,
 } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
-import compose from 'recompose/compose';
-import getContext from 'recompose/getContext';
 
-import { AUTH_GET_PERMISSIONS } from './auth/types';
-import { isLoggedIn } from './reducer';
-import { userLogout as userLogoutAction } from './actions/authActions';
+import { useLogout, useGetPermissions, useAuthState } from './auth';
 import RoutesWithLayout from './RoutesWithLayout';
+import { useTimeout, useSafeSetState } from './util';
 import {
-    Dispatch,
-    AuthProvider,
     AdminChildren,
     CustomRoutes,
     CatchAllComponent,
@@ -36,59 +31,38 @@ const welcomeStyles: CSSProperties = {
 };
 
 export interface AdminRouterProps extends LayoutProps {
-    appLayout: LayoutComponent;
+    layout: LayoutComponent;
     catchAll: CatchAllComponent;
     children?: AdminChildren;
     customRoutes?: CustomRoutes;
     loading: ComponentType;
 }
 
-interface EnhancedProps {
-    authProvider?: AuthProvider;
-    isLoggedIn?: boolean;
-    userLogout: Dispatch<typeof userLogoutAction>;
-}
+type State = ResourceElement[];
 
-interface State {
-    children: ResourceElement[];
-}
-
-export class CoreAdminRouter extends Component<
-    AdminRouterProps & EnhancedProps,
-    State
-> {
-    static defaultProps: Partial<AdminRouterProps> = {
-        customRoutes: [],
-    };
-
-    state: State = { children: [] };
-
-    componentWillMount() {
-        this.initializeResources(this.props);
-    }
-
-    initializeResources = (nextProps: AdminRouterProps & EnhancedProps) => {
-        if (typeof nextProps.children === 'function') {
-            this.initializeResourcesAsync(nextProps);
+const CoreAdminRouter: FunctionComponent<AdminRouterProps> = props => {
+    const getPermissions = useGetPermissions();
+    const doLogout = useLogout();
+    const { authenticated } = useAuthState();
+    const oneSecondHasPassed = useTimeout(1000);
+    const [computedChildren, setComputedChildren] = useSafeSetState<State>([]);
+    useEffect(() => {
+        if (typeof props.children === 'function') {
+            initializeResources();
         }
-    };
+    }, [authenticated]); // eslint-disable-line react-hooks/exhaustive-deps
 
-    initializeResourcesAsync = async (
-        props: AdminRouterProps & EnhancedProps
-    ) => {
-        const { authProvider } = props;
+    const initializeResources = async () => {
         try {
-            const permissions = authProvider
-                ? await authProvider(AUTH_GET_PERMISSIONS)
-                : undefined;
+            const permissions = await getPermissions();
             const resolveChildren = props.children as RenderResourcesFunction;
 
             const childrenFuncResult = resolveChildren(permissions);
             if ((childrenFuncResult as Promise<ResourceElement[]>).then) {
                 (childrenFuncResult as Promise<ResourceElement[]>).then(
-                    resolvedChildren => {
-                        this.setState({
-                            children: resolvedChildren
+                    resolvedChildren =>
+                        setComputedChildren(
+                            resolvedChildren
                                 .filter(child => child)
                                 .map(child => ({
                                     ...child,
@@ -96,166 +70,148 @@ export class CoreAdminRouter extends Component<
                                         ...child.props,
                                         key: child.props.name,
                                     },
-                                })),
-                        });
-                    }
+                                }))
+                        )
                 );
             } else {
-                this.setState({
-                    children: (childrenFuncResult as ResourceElement[]).filter(
+                setComputedChildren(
+                    (childrenFuncResult as ResourceElement[]).filter(
                         child => child
-                    ),
-                });
+                    )
+                );
             }
         } catch (error) {
-            this.props.userLogout();
+            console.error(error);
+            doLogout();
         }
     };
 
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.isLoggedIn !== this.props.isLoggedIn) {
-            this.setState(
-                {
-                    children: [],
-                },
-                () => this.initializeResources(nextProps)
-            );
-        }
-    }
-
-    renderCustomRoutesWithoutLayout = (route, props) => {
+    const renderCustomRoutesWithoutLayout = (route, routeProps) => {
         if (route.props.render) {
             return route.props.render({
-                ...props,
-                title: this.props.title,
+                ...routeProps,
+                title: props.title,
             });
         }
         if (route.props.component) {
             return createElement(route.props.component, {
-                ...props,
-                title: this.props.title,
+                ...routeProps,
+                title: props.title,
             });
         }
     };
 
-    render() {
-        const {
-            appLayout,
-            catchAll,
-            children,
-            customRoutes,
-            dashboard,
-            loading,
-            logout,
-            menu,
-            theme,
-            title,
-        } = this.props;
+    const {
+        layout,
+        catchAll,
+        children,
+        customRoutes,
+        dashboard,
+        loading,
+        logout,
+        menu,
+        theme,
+        title,
+    } = props;
 
-        if (
-            process.env.NODE_ENV !== 'production' &&
-            typeof children !== 'function' &&
-            !children
-        ) {
-            return (
-                <div style={welcomeStyles}>
-                    React-admin is properly configured.
-                    <br />
-                    Now you can add a first &lt;Resource&gt; as child of
-                    &lt;Admin&gt;.
-                </div>
-            );
-        }
-
-        if (
-            typeof children === 'function' &&
-            (!this.state.children || this.state.children.length === 0)
-        ) {
-            return <Route path="/" key="loading" component={loading} />;
-        }
-
-        const childrenToRender =
-            typeof children === 'function' ? this.state.children : children;
-
+    if (
+        process.env.NODE_ENV !== 'production' &&
+        typeof children !== 'function' &&
+        !children
+    ) {
         return (
-            <div>
-                {// Render every resources children outside the React Router Switch
-                // as we need all of them and not just the one rendered
-                Children.map(
-                    childrenToRender,
-                    (child: React.ReactElement<ResourceProps>) =>
-                        cloneElement(child, {
-                            key: child.props.name,
-                            // The context prop instructs the Resource component to not render anything
-                            // but simply to register itself as a known resource
-                            context: 'registration',
-                        })
-                )}
-                <Switch>
-                    {customRoutes
-                        .filter(route => route.props.noLayout)
-                        .map((route, key) =>
-                            cloneElement(route, {
-                                key,
-                                render: props =>
-                                    this.renderCustomRoutesWithoutLayout(
-                                        route,
-                                        props
-                                    ),
-                            })
-                        )}
-                    <Route
-                        path="/"
-                        render={() =>
-                            createElement(
-                                appLayout,
-                                {
-                                    dashboard,
-                                    logout,
-                                    menu,
-                                    theme,
-                                    title,
-                                },
-                                <RoutesWithLayout
-                                    catchAll={catchAll}
-                                    customRoutes={customRoutes.filter(
-                                        route => !route.props.noLayout
-                                    )}
-                                    dashboard={dashboard}
-                                    title={title}
-                                >
-                                    {Children.map(
-                                        childrenToRender,
-                                        (
-                                            child: React.ReactElement<
-                                                ResourceProps
-                                            >
-                                        ) =>
-                                            cloneElement(child, {
-                                                key: child.props.name,
-                                                context: 'route',
-                                            })
-                                    )}
-                                </RoutesWithLayout>
-                            )
-                        }
-                    />
-                </Switch>
+            <div style={welcomeStyles}>
+                React-admin is properly configured.
+                <br />
+                Now you can add a first &lt;Resource&gt; as child of
+                &lt;Admin&gt;.
             </div>
         );
     }
-}
 
-const mapStateToProps = state => ({
-    isLoggedIn: isLoggedIn(state),
-});
+    if (
+        typeof children === 'function' &&
+        (!computedChildren || computedChildren.length === 0)
+    ) {
+        if (oneSecondHasPassed) {
+            return <Route path="/" key="loading" component={loading} />;
+        } else {
+            return null;
+        }
+    }
 
-export default compose(
-    getContext({
-        authProvider: PropTypes.func,
-    }),
-    connect(
-        mapStateToProps,
-        { userLogout: userLogoutAction }
-    )
-)(CoreAdminRouter) as ComponentType<AdminRouterProps>;
+    const childrenToRender = (typeof children === 'function'
+        ? computedChildren
+        : children) as Array<ReactElement<any, any>>;
+
+    return (
+        <div>
+            {// Render every resources children outside the React Router Switch
+            // as we need all of them and not just the one rendered
+            Children.map(
+                childrenToRender,
+                (child: React.ReactElement<ResourceProps>) =>
+                    cloneElement(child, {
+                        key: child.props.name,
+                        // The context prop instructs the Resource component to not render anything
+                        // but simply to register itself as a known resource
+                        intent: 'registration',
+                    })
+            )}
+            <Switch>
+                {customRoutes
+                    .filter(route => route.props.noLayout)
+                    .map((route, key) =>
+                        cloneElement(route, {
+                            key,
+                            render: routeProps =>
+                                renderCustomRoutesWithoutLayout(
+                                    route,
+                                    routeProps
+                                ),
+                        })
+                    )}
+                <Route
+                    path="/"
+                    render={() =>
+                        createElement(
+                            layout,
+                            {
+                                dashboard,
+                                logout,
+                                menu,
+                                theme,
+                                title,
+                            },
+                            <RoutesWithLayout
+                                catchAll={catchAll}
+                                customRoutes={customRoutes.filter(
+                                    route => !route.props.noLayout
+                                )}
+                                dashboard={dashboard}
+                                title={title}
+                            >
+                                {Children.map(
+                                    childrenToRender,
+                                    (
+                                        child: React.ReactElement<ResourceProps>
+                                    ) =>
+                                        cloneElement(child, {
+                                            key: child.props.name,
+                                            intent: 'route',
+                                        })
+                                )}
+                            </RoutesWithLayout>
+                        )
+                    }
+                />
+            </Switch>
+        </div>
+    );
+};
+
+CoreAdminRouter.defaultProps = {
+    customRoutes: [],
+};
+
+export default CoreAdminRouter;

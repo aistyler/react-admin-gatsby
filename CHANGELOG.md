@@ -1,5 +1,57 @@
 # Changelog
 
+## v3.0.0-alpha.4
+
+* Fix adding a filter overrides displayed filters ([3634](https://github.com/marmelab/react-admin/pull/3634)) ([djhi](https://github.com/djhi))
+* Fix FileInput does not react to click ([3628](https://github.com/marmelab/react-admin/pull/3628)) ([natrim](https://github.com/natrim))
+* Fix import package in `ra-data-simple-rest` ([3626](https://github.com/marmelab/react-admin/pull/3626)) ([natrim](https://github.com/natrim))
+* Add error log in `CoreAdminRouter` when `initializeResources` fails ([3625](https://github.com/marmelab/react-admin/pull/3625)) ([natrim](https://github.com/natrim))
+* Fix bad memoization in Input components ([3621](https://github.com/marmelab/react-admin/pull/3621)) ([Evgeny81](https://github.com/Evgeny81))
+* Fix missing translation in `NullableBooleanInput` ([3614](https://github.com/marmelab/react-admin/pull/3614)) ([fzaninotto](https://github.com/fzaninotto))
+* Add Form Helpers to `ra-core` ([3613](https://github.com/marmelab/react-admin/pull/3613)) ([djhi](https://github.com/djhi))
+* Fix backwards compatibility of `Query`, `Mutation`, and `withDataProvider` ([3605](https://github.com/marmelab/react-admin/pull/3605)) ([djhi](https://github.com/djhi))
+* Fix broken build due to missing `css-mediaquery` dependency ([3603](https://github.com/marmelab/react-admin/pull/3603)) ([djhi](https://github.com/djhi))
+* Fix `SelectArrayInput` overrides choices of `ReferenceArrayInput` ([3602](https://github.com/marmelab/react-admin/pull/3602)) ([djhi](https://github.com/djhi))
+* Fix required `ArrayInput` doesn't catch removed items in an `Edit` view  ([3601](https://github.com/marmelab/react-admin/pull/3601)) ([djhi](https://github.com/djhi))
+* Migrate `NodeForm`, `PaginationActions`, `RootDropTarget`, `AppBar`, `DragLayer`, `DragPreview`, `DataGrid`, `MenuLinkItem`, `Loading`, and `SingleFieldList` to hooks ([3599](https://github.com/marmelab/react-admin/pull/3599)) ([3598](https://github.com/marmelab/react-admin/pull/3598)) ([3596](https://github.com/marmelab/react-admin/pull/3596)) ([3595](https://github.com/marmelab/react-admin/pull/3595)) ([3591](https://github.com/marmelab/react-admin/pull/3591)) ([3589](https://github.com/marmelab/react-admin/pull/3589)) ([3585](https://github.com/marmelab/react-admin/pull/3585)) ([3584](https://github.com/marmelab/react-admin/pull/3584)) ([3583](https://github.com/marmelab/react-admin/pull/3583)) ([3582](https://github.com/marmelab/react-admin/pull/3582)) ([3580](https://github.com/marmelab/react-admin/pull/3580)) ([jaytula](https://github.com/jaytula))
+* Improve form look and feel ([3594](https://github.com/marmelab/react-admin/pull/3594)) ([fzaninotto](https://github.com/fzaninotto))
+* Migrate `SelectArrayInput` to TypeScript ([3592](https://github.com/marmelab/react-admin/pull/3592)) ([djhi](https://github.com/djhi))
+* Fix outdated comment on `withStyles` in `LinearProgress` ([3588](https://github.com/marmelab/react-admin/pull/3588)) ([jaytula](https://github.com/jaytula))
+* Remove deprecated `LongTextInput` ([3586](https://github.com/marmelab/react-admin/pull/3586)) ([Kunnu01](https://github.com/Kunnu01))
+* Update examples in `Theming.md` to use hooks ([3581](https://github.com/marmelab/react-admin/pull/3581)) ([m4theushw](https://github.com/m4theushw))
+* Improve form performance ([3577](https://github.com/marmelab/react-admin/pull/3577)) ([fzaninotto](https://github.com/fzaninotto))
+
+## v3.0.0-alpha.3
+
+* Migrate `SelectArrayInput` to hooks ([3576](https://github.com/marmelab/react-admin/pull/3576)) ([djhi](https://github.com/djhi))
+* Migrate `SelectArrayInput` to TypeScript ([3592](https://github.com/marmelab/react-admin/pull/3592)) ([djhi](https://github.com/djhi))
+* Improve form performance ([3577](https://github.com/marmelab/react-admin/pull/3577)) ([fzaninotto](https://github.com/fzaninotto))
+* Improve list performance ([3572](https://github.com/marmelab/react-admin/pull/3572)) ([fzaninotto](https://github.com/fzaninotto))
+* Migrate `Inputs` To TypeScript/hooks ([3575](https://github.com/marmelab/react-admin/pull/3575)) ([djhi](https://github.com/djhi))
+* Migrate `Field` Components ([3574](https://github.com/marmelab/react-admin/pull/3574)) ([djhi](https://github.com/djhi))
+* Create/Edit allow changing success message ([3573](https://github.com/marmelab/react-admin/pull/3573)) ([natrim](https://github.com/natrim))
+* Migrate `GET_MANY` accumulate saga to hooks ([3550](https://github.com/marmelab/react-admin/pull/3550)) ([fzaninotto](https://github.com/fzaninotto))
+* Migrate `DragPreview`, `AppBar`, `Loading`, `TreeNode`, `Tree` and `NodeView` to hooks ([3589](https://github.com/marmelab/react-admin/pull/3589)) ([3582](https://github.com/marmelab/react-admin/pull/3582)) ([3583](https://github.com/marmelab/react-admin/pull/3583)) ([3570](https://github.com/marmelab/react-admin/pull/3570)) ([3569](https://github.com/marmelab/react-admin/pull/3569)) ([3568](https://github.com/marmelab/react-admin/pull/3568)) ([jaytula](https://github.com/jaytula))
+* Fix typos in DataProvider's documentation ([3565](https://github.com/marmelab/react-admin/pull/3565)) ([pemoreau](https://github.com/pemoreau))
+* Add `row` prop to `CheckboxGroupInput` ([3561](https://github.com/marmelab/react-admin/pull/3561)) ([Kunnu01](https://github.com/Kunnu01))
+* Fix typo in comment ([3564](https://github.com/marmelab/react-admin/pull/3564)) ([pemoreau](https://github.com/pemoreau))
+* [BC Break] Remove `DisabledInput` ([3549](https://github.com/marmelab/react-admin/pull/3549)) ([djhi](https://github.com/djhi))
+* Migrate `SaveButton`, `Confirm`, `LinearProgress`, `CardContentInner`, `Error`, `NodeActions`, `LoadingIndicator`, and 10 other components to hooks ([3554](https://github.com/marmelab/react-admin/pull/3554)) ([3546](https://github.com/marmelab/react-admin/pull/3546)) ([3557](https://github.com/marmelab/react-admin/pull/3557)) ([3560](https://github.com/marmelab/react-admin/pull/3560)) ([3559](https://github.com/marmelab/react-admin/pull/3559)) ([3558](https://github.com/marmelab/react-admin/pull/3558)) ([3556](https://github.com/marmelab/react-admin/pull/3556)) ([3555](https://github.com/marmelab/react-admin/pull/3555)) ([jaytula](https://github.com/jaytula))
+* `createAdminStore` - set initialState on logout ([3507](https://github.com/marmelab/react-admin/pull/3507)) ([natrim](https://github.com/natrim))
+* Change `LongTextInput` to `TextInput` in examples/demo and example / simple ([3553](https://github.com/marmelab/react-admin/pull/3553)) ([3544](https://github.com/marmelab/react-admin/pull/3544)) ([jaytula](https://github.com/jaytula))
+* [BC Break] Remove `BulkActions` in V3 ([3517](https://github.com/marmelab/react-admin/pull/3517)) ([Kunnu01](https://github.com/Kunnu01))
+* Fix Login on Demo ([3537](https://github.com/marmelab/react-admin/pull/3537)) 
+* Migrate `Input` components to `useInput` and TypeScript ([3566](https://github.com/marmelab/react-admin/pull/3566)) ([3563](https://github.com/marmelab/react-admin/pull/3563)) ([3548](https://github.com/marmelab/react-admin/pull/3548)) ([3539](https://github.com/marmelab/react-admin/pull/3539)) ([3538](https://github.com/marmelab/react-admin/pull/3538)) ([3540](https://github.com/marmelab/react-admin/pull/3540)) ([3523](https://github.com/marmelab/react-admin/pull/3523)) ([3512](https://github.com/marmelab/react-admin/pull/3512)) ([3525](https://github.com/marmelab/react-admin/pull/3525)) ([3527](https://github.com/marmelab/react-admin/pull/3527)) ([3526](https://github.com/marmelab/react-admin/pull/3526)) ([3524](https://github.com/marmelab/react-admin/pull/3524)) ([3522](https://github.com/marmelab/react-admin/pull/3522)) ([3520](https://github.com/marmelab/react-admin/pull/3520)) ([3516](https://github.com/marmelab/react-admin/pull/3516)) ([3511](https://github.com/marmelab/react-admin/pull/3511)) ([3514](https://github.com/marmelab/react-admin/pull/3514)) ([3504](https://github.com/marmelab/react-admin/pull/3504)) ([3513](https://github.com/marmelab/react-admin/pull/3513)) ([3515](https://github.com/marmelab/react-admin/pull/3515)) ([3502](https://github.com/marmelab/react-admin/pull/3502)) ([3501](https://github.com/marmelab/react-admin/pull/3501)) ([3500](https://github.com/marmelab/react-admin/pull/3500)) ([djhi](https://github.com/djhi))
+* Temporary migration of `ra-tree` to v3 ([3510](https://github.com/marmelab/react-admin/pull/3510)) ([djhi](https://github.com/djhi))
+* Introduce `useInput` hook ([3499](https://github.com/marmelab/react-admin/pull/3499)) ([djhi](https://github.com/djhi))
+* Upgrade Cypress ([3528](https://github.com/marmelab/react-admin/pull/3528)) ([djhi](https://github.com/djhi))
+* Set key prop on `CheckboxGroupInputItem` ([3536](https://github.com/marmelab/react-admin/pull/3536)) ([jaytula](https://github.com/jaytula))
+* Fix typo in `package.json` ([3498](https://github.com/marmelab/react-admin/pull/3498)) ([Kmaschta](https://github.com/Kmaschta))
+* Replace `withStyles` with `useStyles` ([3485](https://github.com/marmelab/react-admin/pull/3485)) ([m4theushw](https://github.com/m4theushw))
+* Fix `theme.spacing` warning ([3492](https://github.com/marmelab/react-admin/pull/3492)) ([Luwangel](https://github.com/Luwangel))
+* Update to `@testing-library/react` ([3489](https://github.com/marmelab/react-admin/pull/3489)) ([djhi](https://github.com/djhi))
+* Add `emptyText` prop to `SelectInput` ([3444](https://github.com/marmelab/react-admin/pull/3444)) ([tdeo](https://github.com/tdeo))
+
 ## v2.9.6
 
 * Fix too drastic validation of `DELETE` and `DELETE_MANY` dataProvider responses ([3441](https://github.com/marmelab/react-admin/pull/3441)) ([Kmaschta](https://github.com/Kmaschta))
@@ -16,6 +68,75 @@
 * Add link to Swedish translation ([3466](https://github.com/marmelab/react-admin/pull/3466)) ([Kladdy](https://github.com/Kladdy))
 * Improve bug report template ([3488](https://github.com/marmelab/react-admin/pull/3488)) ([Kmaschta](https://github.com/Kmaschta))
 * Change documentation search engine to Algolia ([3459](https://github.com/marmelab/react-admin/pull/3459)) ([fzaninotto](https://github.com/fzaninotto))
+
+## v3.0.0-alpha.2
+
+* Fix regression in ability to inject a Redux store in `<Admin>` ([3482](https://github.com/marmelab/react-admin/pull/3482)) ([djhi](https://github.com/djhi))
+* Fix regression in `<Datagrid>` row height when no bulk action is available ([3480](https://github.com/marmelab/react-admin/pull/3480)) ([djhi](https://github.com/djhi))
+* [BC Break] Migrate from redux-form to react-final-form ([3455](https://github.com/marmelab/react-admin/pull/3455)) ([djhi](https://github.com/djhi))
+* Fix regression in review accept / reject buttons in demo example ([3473](https://github.com/marmelab/react-admin/pull/3473)) ([fzaninotto](https://github.com/fzaninotto))
+* [BC Break] Refactor `useDataProvider` so that it does not use `redux-saga` ([3468](https://github.com/marmelab/react-admin/pull/3468)) ([fzaninotto](https://github.com/fzaninotto))
+* Add typechecking of `react-redux` functions and components([3463](https://github.com/marmelab/react-admin/pull/3463)) ([fzaninotto](https://github.com/fzaninotto))
+* Upgrade `material-ui` to 4.2.1 ([3457](https://github.com/marmelab/react-admin/pull/3457)) ([djhi](https://github.com/djhi))
+* Use `useStyles` in documentation ([3456](https://github.com/marmelab/react-admin/pull/3456)) ([fzaninotto](https://github.com/fzaninotto))
+
+## v3.0.0-alpha.1
+
+* Fix `ReferenceField` link ([3452](https://github.com/marmelab/react-admin/pull/3452)) ([fzaninotto](https://github.com/fzaninotto))
+* [BC Break] Reference hooks cleanup ([3446](https://github.com/marmelab/react-admin/pull/3446)) ([fzaninotto](https://github.com/fzaninotto))
+* Fix hide filter button isn't aligned with field ([3449](https://github.com/marmelab/react-admin/pull/3449)) ([fzaninotto](https://github.com/fzaninotto))
+* Add `useDeleteMany` and useUpdateMany hooks ([3448](https://github.com/marmelab/react-admin/pull/3448)) ([fzaninotto](https://github.com/fzaninotto))
+* Fix `LongTextInput` isn't so long ([3450](https://github.com/marmelab/react-admin/pull/3450)) ([fzaninotto](https://github.com/fzaninotto))
+* Declare `fetch` side effects as function ([3425](https://github.com/marmelab/react-admin/pull/3425)) ([fzaninotto](https://github.com/fzaninotto))
+* Promoting `react-testing-library` as a dependency ([3442](https://github.com/marmelab/react-admin/pull/3442)) ([fzaninotto](https://github.com/fzaninotto))
+* [BC Break] Delegate the redirection after logout to `authProvider` ([3269](https://github.com/marmelab/react-admin/pull/3269)) ([djhi](https://github.com/djhi))
+* Add `useReferenceInput` ([3313](https://github.com/marmelab/react-admin/pull/3313)) ([ThieryMichel](https://github.com/ThieryMichel))
+* Fix dependencies to 3.0.0 ([3440](https://github.com/marmelab/react-admin/pull/3440)) ([fzaninotto](https://github.com/fzaninotto))
+
+## v3.0.0-alpha.0
+
+* Add pagination and sorting params to GET_MANY_REFERENCE ([3412](https://github.com/marmelab/react-admin/pull/3412)) ([m4theushw](https://github.gom/m4theushw))
+* Use hooks on demo (last PR) ([3345](https://github.com/marmelab/react-admin/pull/3345)) ([zyhou](https://github.gom/zyhou))
+* Add `useCreateController` hook ([3409](https://github.com/marmelab/react-admin/pull/3409)) ([fzaninotto](https://github.gom/fzaninotto))
+* Add `useShowController` hook ([3406](https://github.com/marmelab/react-admin/pull/3406)) ([fzaninotto](https://github.gom/fzaninotto))
+* Add `useEditController` hook ([3398](https://github.com/marmelab/react-admin/pull/3398)) ([fzaninotto](https://github.gom/fzaninotto))
+* Prevents passing the `sidebarIsOpen` prop to the `<MenuItem>` component ([3393](https://github.com/marmelab/react-admin/pull/3393)) ([m4theushw](https://github.gom/m4theushw))
+* Add tooltip to menu entries on the sidebar ([3390](https://github.com/marmelab/react-admin/pull/3390)) ([m4theushw](https://github.gom/m4theushw))
+* Add `useListController` hook ([3377](https://github.com/marmelab/react-admin/pull/3377)) ([fzaninotto](https://github.gom/fzaninotto))
+* Add auth hooks (`useAuth` and `usePermissions`) ([3368](https://github.com/marmelab/react-admin/pull/3368)) ([fzaninotto](https://github.gom/fzaninotto))
+* Refactor validators to not return translated errors ([3339](https://github.com/marmelab/react-admin/pull/3339)) ([djhi](https://github.gom/djhi))
+* Upgrade `react-redux` to version 7.1 ([3349](https://github.com/marmelab/react-admin/pull/3349)) ([fzaninotto](https://github.gom/fzaninotto))
+* Backport changes from 2.9.2 and 2.9.3 to next ([3344](https://github.com/marmelab/react-admin/pull/3344)) ([fzaninotto](https://github.gom/fzaninotto))
+* Use `makeStyles` hook on examples demo ([3328](https://github.com/marmelab/react-admin/pull/3328)) ([zyhou](https://github.gom/zyhou))
+* Replace `tslint` with `eslint` ([3321](https://github.com/marmelab/react-admin/pull/3321)) ([djhi](https://github.gom/djhi))
+* Add link function to `<ReferenceField>` ([3282](https://github.com/marmelab/react-admin/pull/3282)) ([fargito](https://github.gom/fargito))
+* Add tabs prop to `<TabbedForm>` to allow injecting custom Tabs component([3288](https://github.com/marmelab/react-admin/pull/3288)) ([sagarbakhtar](https://github.gom/sagarbakhtar))
+* Add `suggestionLimit` prop to `<AutocompleteArrayInput>` ([3326](https://github.com/marmelab/react-admin/pull/3326)) ([sagarbakhtar](https://github.gom/sagarbakhtar))
+* [BC Break] Use theme to store sidebar width ([3323](https://github.com/marmelab/react-admin/pull/3323)) ([djhi](https://github.gom/djhi)
+* [BC Break] Replace `papaparse` with a lighter library ([3324](https://github.com/marmelab/react-admin/pull/3324)) ([djhi](https://github.gom/djhi)
+* Add `List` performance optimizations ([3320](https://github.com/marmelab/react-admin/pull/3320)) ([fzaninotto](https://github.gom/fzaninotto))
+* Upgrade, Configure & Apply `prettier` ([3317](https://github.com/marmelab/react-admin/pull/3317)) ([djhi](https://github.gom/djhi)
+* Add notification on `USER_CHECK` error ([3291](https://github.com/marmelab/react-admin/pull/3291)) ([sagarbakhtar](https://github.gom/sagarbakhtar))
+* Fix `Layout` component injection ([3315](https://github.com/marmelab/react-admin/pull/3315)) ([djhi](https://github.gom/djhi)
+* Add `useReferenceArrayField` hook ([3294](https://github.com/marmelab/react-admin/pull/3294)) ([ThieryMichel](https://github.gom/ThieryMichel))
+* Add `useReferenceMany` hook ([3236](https://github.com/marmelab/react-admin/pull/3236)) ([ThieryMichel](https://github.gom/ThieryMichel))
+* Migrate simple example to hooks ([3225](https://github.com/marmelab/react-admin/pull/3225)) ([zyhou](https://github.gom/zyhou))
+* Authenticate `NotFound` page ([3243](https://github.com/marmelab/react-admin/pull/3243)) ([Kmaschta](https://github.gom/Kmaschta))
+* Add support for `<Datagrid rowClick="toggleSelection">` ([3270](https://github.com/marmelab/react-admin/pull/3270)) ([fargito](https://github.gom/fargito))
+* Add Crud hooks (`useQuery`, `usequeryWithStore`, `useMutation`, `useGetOne`, `useGetList`) ([3253](https://github.com/marmelab/react-admin/pull/3253)) ([fzaninotto](https://github.gom/fzaninotto))
+* Replace Headroom by native Material-ui solution for hiding the app bar on scroll ([3247](https://github.com/marmelab/react-admin/pull/3247)) ([fzaninotto](https://github.gom/fzaninotto))
+* Rename `appLayout` prop to `layout` in `<Admin>` component ([3055](https://github.com/marmelab/react-admin/pull/3055)) ([kopax](https://github.gom/kopax))
+* Upgrade cypress and add ability to run single test ([3235](https://github.com/marmelab/react-admin/pull/3235)) ([cherniavskii](https://github.gom/cherniavskii))
+* Add `useReference` hook ([3228](https://github.com/marmelab/react-admin/pull/3228)) ([ThieryMichel](https://github.gom/ThieryMichel))Approved
+* Move Actions out of the Card ([3214](https://github.com/marmelab/react-admin/pull/3214)) ([fzaninotto](https://github.gom/fzaninotto))
+* Fix `useListParams` hook ([3233](https://github.com/marmelab/react-admin/pull/3233)) ([djhi](https://github.gom/djhi)
+* Add `useListParams` ([3217](https://github.com/marmelab/react-admin/pull/3217)) ([djhi](https://github.gom/djhi)
+* Use hooks in controllers ([3213](https://github.com/marmelab/react-admin/pull/3213)) ([djhi](https://github.gom/djhi))
+* [BC Break] Upgrade `redux-saga` ([3212](https://github.com/marmelab/react-admin/pull/3212)) ([djhi](https://github.gom/djhi))
+* [BC Break] Upgrade `material-ui` to v4 ([3191](https://github.com/marmelab/react-admin/pull/3191)) ([fzaninotto](https://github.gom/fzaninotto))
+* Add `useTranslate` hook ([3188](https://github.com/marmelab/react-admin/pull/3188)) ([fzaninotto](https://github.gom/fzaninotto))of 7
+* [BC Break] Add `useDataProvider` hook ([3181](https://github.com/marmelab/react-admin/pull/3181)) ([fzaninotto](https://github.gom/fzaninotto))
+* [BC Break] Upgrade dependencies ([3170](https://github.com/marmelab/react-admin/pull/3170)) ([fzaninotto](https://github.gom/fzaninotto))
 
 ## v2.9.5
 

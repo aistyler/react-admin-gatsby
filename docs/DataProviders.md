@@ -24,7 +24,7 @@ The `dataProvider` parameter of the `<Admin>` component must be a function with 
  * @param {Object} payload Request parameters. Depends on the action type
  * @returns {Promise} the Promise for a response
  */
-const dataProvider = (type, resource, params) => new Promise();
+const dataProvider = (type, resource, payload) => new Promise();
 ```
 
 You can find a Data Provider example implementation in [`packages/ra-data-simple-rest/src/index.js`](https://github.com/marmelab/react-admin/blob/master/packages/ra-data-simple-rest/src/index.js);
@@ -122,7 +122,7 @@ Here is how this provider maps request types to API calls:
 | `UPDATE_MANY`        | Multiple calls to `PUT http://my.api.url/posts/123`
 | `DELETE`             | `DELETE http://my.api.url/posts/123`
 | `DELETE_MANY`        | Multiple calls to `DELETE http://my.api.url/posts/123`
-| `GET_MANY`           | `GET http://my.api.url/posts?filter={ids:[123,456,789]}`
+| `GET_MANY`           | `GET http://my.api.url/posts?filter={id:[123,456,789]}`
 | `GET_MANY_REFERENCE` | `GET http://my.api.url/posts?filter={author_id:345}`
 
 **Note**: The simple REST client expects the API to include a `Content-Range` header in the response to `GET_LIST` calls. The value must be the total number of resources in the collection. This allows react-admin to know how many pages of resources there are in total, and build the pagination controls.
@@ -402,7 +402,7 @@ export default (type, resource, params) => {
             options.method = 'PUT';
             options.body = JSON.stringify(params.data);
             break;
-        case UPDATE_MANY:
+        case UPDATE_MANY: {
             const query = {
                 filter: JSON.stringify({ id: params.ids }),
             };
@@ -410,17 +410,19 @@ export default (type, resource, params) => {
             options.method = 'PATCH';
             options.body = JSON.stringify(params.data);
             break;
+        }
         case DELETE:
             url = `${apiUrl}/${resource}/${params.id}`;
             options.method = 'DELETE';
             break;
-        case DELETE_MANY:
+        case DELETE_MANY: {
             const query = {
                 filter: JSON.stringify({ id: params.ids }),
             };
             url = `${apiUrl}/${resource}?${stringify(query)}`;
             options.method = 'DELETE';
             break;
+        }
         case GET_MANY: {
             const query = {
                 filter: JSON.stringify({ id: params.ids }),
@@ -451,9 +453,10 @@ export default (type, resource, params) => {
 
     return fetch(url, options)
         .then(res => res.json())
-        .then(response =>
+        .then(response => {
             /* Convert HTTP Response to Data Provider Response */
             /* Covered in the next section */
+        }
         );
 };
 ```
@@ -591,16 +594,16 @@ POST http://path.to.my.api/posts
 PUT http://path.to.my.api/posts/123
 { "id": 123, "title": "hello, world", "author_id": 12 }
 
-PUT http://path.to.my.api/posts?filter={ids:[123,124,125]}
+PUT http://path.to.my.api/posts?filter={id:[123,124,125]}
 [123, 124, 125]
 
 DELETE http://path.to.my.api/posts/123
 { "id": 123, "title": "hello, world", "author_id": 12 }
 
-DELETE http://path.to.my.api/posts?filter={ids:[123,124,125]}
+DELETE http://path.to.my.api/posts?filter={id:[123,124,125]}
 [123, 124, 125]
 
-GET http://path.to.my.api/posts?filter={ids:[123,124,125]}
+GET http://path.to.my.api/posts?filter={id:[123,124,125]}
 [
     { "id": 123, "title": "hello, world", "author_id": 12 },
     { "id": 124, "title": "good day sunshine", "author_id": 12 },

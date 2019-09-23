@@ -10,7 +10,7 @@ class UserMenu extends React.Component {
     static propTypes = {
         children: PropTypes.node,
         label: PropTypes.string.isRequired,
-        logout: PropTypes.node,
+        logout: PropTypes.element,
         icon: PropTypes.node,
         translate: PropTypes.func.isRequired,
     };

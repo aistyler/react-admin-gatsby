@@ -10,7 +10,10 @@ export interface DefaultValueProps extends InputProps {
     initializeForm: typeof initializeFormAction;
 }
 
-export class DefaultValueView extends Component<DefaultValueProps> {
+/**
+ * @deprecated
+ */
+export class DefaultValueView extends Component<any> {
     static propTypes = {
         decoratedComponent: PropTypes.oneOfType([
             PropTypes.element,

@@ -13,39 +13,31 @@ Fortunately, the `<Admin>` component detects when it's used inside an existing R
 
 Beware that you need to know about [redux](http://redux.js.org/), [react-router](https://github.com/reactjs/react-router), and [redux-saga](https://github.com/yelouafi/redux-saga) to go further.
 
-React-admin requires that the redux state contains at least 4 reducers: `admin`, `i18n`, `form`, and `router`. You can add more, or replace some of them with your own, but you can't remove or rename them. As it relies on redux-form, react-router, and redux-saga, react-admin also expects the store to use their middlewares.
+React-admin requires that the redux state contains at least 3 reducers: `admin`, `i18n` and `router`. You can add more, or replace some of them with your own, but you can't remove or rename them. As it relies on `connected-react-router` and `redux-saga`, react-admin also expects the store to use their middlewares.
 
 Here is the default store creation for react-admin:
 
 ```js
 // in src/createAdminStore.js
 import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
-import { routerMiddleware, routerReducer } from 'react-router-redux';
-import { reducer as formReducer } from 'redux-form';
+import { routerMiddleware, connectRouter } from 'connected-react-router';
 import createSagaMiddleware from 'redux-saga';
 import { all, fork } from 'redux-saga/effects';
 import {
     adminReducer,
     adminSaga,
-    createAppReducer,
     defaultI18nProvider,
-    i18nReducer,
-    formMiddleware,
     USER_LOGOUT,
 } from 'react-admin';
 
 export default ({
     authProvider,
     dataProvider,
-    i18nProvider = defaultI18nProvider,
     history,
-    locale = 'en',
 }) => {
     const reducer = combineReducers({
         admin: adminReducer,
-        i18n: i18nReducer(locale, i18nProvider(locale)),
-        form: formReducer,
-        router: routerReducer,
+        router: connectRouter(history),
         { /* add your own reducers here */ },
     });
     const resettableAppReducer = (state, action) =>
@@ -54,7 +46,7 @@ export default ({
     const saga = function* rootSaga() {
         yield all(
             [
-                adminSaga(dataProvider, authProvider, i18nProvider),
+                adminSaga(dataProvider, authProvider),
                 // add your own sagas here
             ].map(fork)
         );
@@ -67,7 +59,6 @@ export default ({
         compose(
             applyMiddleware(
                 sagaMiddleware,
-                formMiddleware,
                 routerMiddleware(history),
                 // add your own middlewares here
             ),
@@ -94,6 +85,7 @@ import { createHashHistory } from 'history';
 import { Admin, Resource } from 'react-admin';
 import restProvider from 'ra-data-simple-rest';
 import defaultMessages from 'ra-language-english';
+import polyglotI18nProvider from 'ra_i18n_polyglot';
 
 import createAdminStore from './createAdminStore';
 import messages from './i18n';
@@ -104,15 +96,15 @@ import { PostList, PostCreate, PostEdit, PostShow } from './Post';
 import { CommentList, CommentEdit, CommentCreate } from './Comment';
 import { UserList, UserEdit, UserCreate } from './User';
 
-// side effects
-const authProvider = () => Promise.resolve();
+// dependency injection
 const dataProvider = restProvider('http://path.to.my.api/');
-const i18nProvider = locale => {
+const authProvider = () => Promise.resolve();
+const i18nProvider = polyglotI18nProvider(locale => {
     if (locale !== 'en') {
         return messages[locale];
     }
     return defaultMessages;
-};
+});
 const history = createHashHistory();
 
 const App = () => (
@@ -120,12 +112,12 @@ const App = () => (
         store={createAdminStore({
             authProvider,
             dataProvider,
-            i18nProvider,
             history,
         })}
     >
         <Admin
             authProvider={authProvider}
+            dataProvider={dataProvider}
             history={history}
             title="My Admin"
         >
@@ -139,7 +131,7 @@ const App = () => (
 export default App;
 ```
 
-**Tip**: One thing to pay attention to is that you must pass the same `history` and `authProvider` to both the redux Store creator and the `<Admin>` component. But you don't need to pass the `dataProvider` or the `i18nProvider`.
+**Tip**: One thing to pay attention to is that you must pass the same `history`, `dataProvider` and `authProvider` to both the redux Store creator and the `<Admin>` component. But you don't need to pass the `i18nProvider`.
 
 ## Not Using the `<Admin>` Components
 
@@ -152,14 +144,15 @@ Here is the main code for bootstrapping a barebones react-admin application with
 import React from 'react';
 import { Provider } from 'react-redux';
 import { createHashHistory } from 'history';
-+import { ConnectedRouter } from 'react-router-redux';
++import { ConnectedRouter } from 'connected-react-router';
 +import { Switch, Route } from 'react-router-dom';
 +import withContext from 'recompose/withContext';
 -import { Admin, Resource } from 'react-admin';
-+import { TranslationProvider, Resource } from 'react-admin';
++import { AuthContext, DataProviderContext, TranslationProvider, Resource } from 'react-admin';
 import restProvider from 'ra-data-simple-rest';
 import defaultMessages from 'ra-language-english';
-+import { MuiThemeProvider } from '@material-ui/core/styles';
+import polyglotI18nProvider from 'ra_i18n_polyglot';
++import { ThemeProvider } from '@material-ui/styles';
 +import AppBar from '@material-ui/core/AppBar';
 +import Toolbar from '@material-ui/core/Toolbar';
 +import Typography from '@material-ui/core/Typography';
@@ -173,15 +166,15 @@ import { PostList, PostCreate, PostEdit, PostShow } from './Post';
 import { CommentList, CommentEdit, CommentCreate } from './Comment';
 import { UserList, UserEdit, UserCreate } from './User';
 
-// side effects
-const authProvider = () => Promise.resolve();
+// dependency injection
 const dataProvider = restProvider('http://path.to.my.api/');
-const i18nProvider = locale => {
+const authProvider = () => Promise.resolve();
+const i18nProvider = polyglotI18nProvider(locale => {
     if (locale !== 'en') {
         return messages[locale];
     }
     return defaultMessages;
-};
+});
 const history = createHashHistory();
 
 const App = () => (
@@ -189,7 +182,6 @@ const App = () => (
         store={createAdminStore({
             authProvider,
             dataProvider,
-            i18nProvider,
             history,
         })}
     >
@@ -201,14 +193,19 @@ const App = () => (
 -           <Resource name="posts" list={PostList} create={PostCreate} edit={PostEdit} show={PostShow} />
 -           <Resource name="comments" list={CommentList} edit={CommentEdit} create={CommentCreate} />
 -           <Resource name="users" list={UserList} edit={UserEdit} create={UserCreate} />
-+       <TranslationProvider>
-+           <MuiThemeProvider>
-+               <Resource name="posts" context="registration" />
-+               <Resource name="comments" context="registration" />
-+               <Resource name="users" context="registration" />
++       <AuthContext.Provider value={authProvider}>
++       <DataProviderContext.Provider value={dataProvider}>
++       <TranslationProvider
++           locale={locale}
++           i18nProvider={i18nProvider}
++       >
++           <ThemeProvider>
++               <Resource name="posts" intent="registration" />
++               <Resource name="comments" intent="registration" />
++               <Resource name="users" intent="registration" />
 +               <AppBar position="static" color="default">
 +                   <Toolbar>
-+                       <Typography variant="title" color="inherit">
++                       <Typography variant="h6" color="inherit">
 +                           My admin
 +                       </Typography>
 +                   </Toolbar>
@@ -228,8 +225,10 @@ const App = () => (
 +                       <Route exact path="/users/:id" render={(routeProps) => <UsersEdit resource="users" {...routeProps} />} />
 +                   </Switch>
 +               </ConnectedRouter>
-+           </MuiThemeProvider>
++           </ThemeProvider>
 +       </TranslationProvider>
++       </DataProviderContext.Provider>
++       </AuthContext.Provider>
 -       </Admin>
     </Provider>
 );
