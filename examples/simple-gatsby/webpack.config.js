@@ -1,110 +1,74 @@
-const path = require("path");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const HardSourceWebpackPlugin = require("hard-source-webpack-plugin");
-const IgnoreNotFoundExportPlugin = require("ignore-not-found-export-plugin");
+const path = require('path');
 
 module.exports = {
-    devtool: "cheap-module-source-map",
-    module: {
-        rules: [
-            {
-                test: /\.(t|j)sx?$/,
-                exclude: /node_modules/,
-                use: { loader: "babel-loader" },
-            },
-            {
-                test: /\.html$/,
-                exclude: /node_modules/,
-                use: { loader: "html-loader" },
-            },
-        ],
-    },
-    plugins: [
-    //        new HtmlWebpackPlugin({
-    //            template: './src/index.html',
-    //        }),
-        new HardSourceWebpackPlugin(),
-        // required because of https://github.com/babel/babel/issues/7640
-        new IgnoreNotFoundExportPlugin([
-            "CallbackSideEffect",
-            "NotificationSideEffect",
-            "RedirectionSideEffect",
-            "RefreshSideEffect",
-        ]),
-    ],
+    devtool: 'cheap-module-source-map',
     resolve: {
-        extensions: [".ts", ".js", ".tsx", ".json"],
+        extensions: ['.ts', '.js', '.tsx', '.json'],
         alias: {
-            "ra-core": path.join(__dirname, "..", "..", "packages", "ra-core", "src"),
-            "ra-ui-materialui": path.join(
+            'ra-core': path.join(
                 __dirname,
-                "..",
-                "..",
-                "packages",
-                "ra-ui-materialui",
-                "src"
+                '..',
+                '..',
+                'packages',
+                'ra-core',
+                'src'
             ),
-            "react-admin": path.join(
+            'ra-ui-materialui': path.join(
                 __dirname,
-                "..",
-                "..",
-                "packages",
-                "react-admin",
-                "src"
+                '..',
+                '..',
+                'packages',
+                'ra-ui-materialui',
+                'src'
             ),
-            "ra-data-fakerest": path.join(
+            'react-admin': path.join(
                 __dirname,
-                "..",
-                "..",
-                "packages",
-                "ra-data-fakerest",
-                "src"
+                '..',
+                '..',
+                'packages',
+                'react-admin',
+                'src'
             ),
-            "ra-input-rich-text": path.join(
+            'ra-data-fakerest': path.join(
                 __dirname,
-                "..",
-                "..",
-                "packages",
-                "ra-input-rich-text",
-                "src"
+                '..',
+                '..',
+                'packages',
+                'ra-data-fakerest',
+                'src'
             ),
-            "ra-tree-core": path.join(
+            'ra-i18n-polyglot': path.join(
                 __dirname,
-                "..",
-                "..",
-                "packages",
-                "ra-tree-core",
-                "src"
+                '..',
+                '..',
+                'packages',
+                'ra-i18n-polyglot',
+                'src'
             ),
-            "ra-tree-ui-materialui": path.join(
+            'ra-input-rich-text': path.join(
                 __dirname,
-                "..",
-                "..",
-                "packages",
-                "ra-tree-ui-materialui",
-                "src"
+                '..',
+                '..',
+                'packages',
+                'ra-input-rich-text',
+                'src'
             ),
-            "ra-tree-language-english": path.join(
+            'ra-tree-core': path.join(
                 __dirname,
-                "..",
-                "..",
-                "packages",
-                "ra-tree-language-english"
+                '..',
+                '..',
+                'packages',
+                'ra-tree-core',
+                'src'
             ),
-            "ra-tree-language-french": path.join(
+            'ra-tree-ui-materialui': path.join(
                 __dirname,
-                "..",
-                "..",
-                "packages",
-                "ra-tree-language-french"
+                '..',
+                '..',
+                'packages',
+                'ra-tree-ui-materialui',
+                'src'
             ),
-        },
-    },
-    devServer: {
-        stats: {
-            children: false,
-            chunks: false,
-            modules: false,
         },
     },
 };

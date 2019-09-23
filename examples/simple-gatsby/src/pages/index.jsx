@@ -6,12 +6,13 @@ import { Route } from "react-router";
 import { reducer as tree } from "ra-tree-ui-materialui";
 
 import authProvider from "../authProvider";
-import comments from "../comments";
 import CustomRouteLayout from "../customRouteLayout";
 import CustomRouteNoLayout from "../customRouteNoLayout";
 import dataProvider from "../dataProvider";
 import i18nProvider from "../i18nProvider";
+
 import posts from "../posts";
+import comments from "../comments";
 import users from "../users";
 import tags from "../tags";
 
