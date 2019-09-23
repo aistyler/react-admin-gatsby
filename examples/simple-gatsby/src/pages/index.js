@@ -15,7 +15,7 @@ import posts from "../posts";
 import users from "../users";
 import tags from "../tags";
 
-render(
+const App = () => (
     <Admin
         authProvider={authProvider}
         dataProvider={dataProvider}
@@ -34,6 +34,9 @@ render(
             permissions ? <Resource name="users" {...users} /> : null,
             <Resource name="tags" {...tags} />,
         ]}
-    </Admin>,
-    document.getElementById("root")
+    </Admin>
 );
+
+//render(App, document.getElementById("root"));
+
+export default App;
